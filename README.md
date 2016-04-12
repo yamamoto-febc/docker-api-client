@@ -31,7 +31,6 @@ $ docker-compose run (options) docker-api-client [APIエンドポイント] [jq�
 $ eval $(docker-machine env 対象マシン)
 
 $ docker run -it --rm -e DOCKER_HOST \
-             -v /var/run/docker.sock:/var/run/docker \
              -v /etc/docker:/etc/docker \
              yamamotofebc:docker-api-client /images/json
 

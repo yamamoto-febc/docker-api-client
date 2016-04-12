@@ -5,5 +5,4 @@ services:
     environment:
       - DOCKER_HOST
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
       - /etc/docker:/etc/docker
