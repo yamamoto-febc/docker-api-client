@@ -20,5 +20,5 @@ else
   JQ_ARG="$2"
 fi
 
-curl -sSfk --insecure --cert /etc/docker/server.pem --key /etc/docker/server-key.pem "$DOCKER_URL$1" | jq \"$JQ_ARG\"
+curl -sSfk --insecure --cert /etc/docker/server.pem --key /etc/docker/server-key.pem "$DOCKER_URL$1" | jq "$JQ_ARG"
 
