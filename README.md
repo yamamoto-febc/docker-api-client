@@ -9,7 +9,7 @@ Docker Machineで作られたDockerホストへのDocker Remote API呼び出し�
 ### 書式/引数
 ```bash
 
-$ docker run (options) yamamotofebc:docker-api-client [APIエンドポイント] [jqコマンド引数]
+$ docker run (options) yamamotofebc/docker-api-client [APIエンドポイント] [jqコマンド引数]
 
 or
 
@@ -32,7 +32,7 @@ $ eval $(docker-machine env 対象マシン)
 
 $ docker run -it --rm -e DOCKER_HOST \
              -v /etc/docker:/etc/docker \
-             yamamotofebc:docker-api-client /images/json
+             yamamotofebc/docker-api-client /images/json
 
 ```
 
