@@ -18,6 +18,7 @@ $ docker-compose run (options) docker-api-client [APIエンドポイント] [jq�
 ```
 
   ** 現状 GET のみ **
+
   ** TODO APIエンドポイント指定部分で`POST /some/endpoint`みたいに指定できるように。 **
 
   - `APIエンドポイント` : 必須。`/images/json`など。詳細は[こちら](https://docs.docker.com/engine/reference/api/docker_remote_api/)を参照ください。
@@ -46,6 +47,8 @@ $ git clone https://github.com/yamamoto-febc/docker-api-client.git
 $ cd docker-api-client
 
 ```
+
+#### 実行
 
 ```bash
 
