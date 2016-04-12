@@ -56,3 +56,15 @@ $ docker-compose run --rm docker-api-client /images/json
 
 ```
 
+#### 実行例(/images/jsonにてIDのみ抜き出し)
+
+```bash
+
+$ docker-compose run --rm docker-api-client /images/json ".[].Id"
+
+```
+
+
+
+
+
