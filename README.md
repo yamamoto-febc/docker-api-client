@@ -24,6 +24,14 @@ $ docker-compose run (options) docker-api-client [APIエンドポイント] [jq�
   - `APIエンドポイント` : 必須。`/images/json`など。詳細は[こちら](https://docs.docker.com/engine/reference/api/docker_remote_api/)を参照ください。
   - `jqコマンド引数` : オプション。デフォルト`.`。
 
+#### volumeの割り当て
+
+以下にTLS関連ファイルが格納されていますので、/etc/dockerへvolumeを割り当ててください。
+
+  - virtualboxなどのローカルドライバで作ったマシンの場合: `~/.docker/machine/machines/対象マシン`
+  - sakuracloudなどのクラウドドライバで作ったマシンの場合: `/etc/docker`
+
+
 ### docker runで実行する場合
 
 ```bash
