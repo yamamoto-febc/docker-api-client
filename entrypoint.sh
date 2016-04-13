@@ -8,15 +8,15 @@ if [ -z "$DOCKER_HOST" ]; then
   else
     DOCKER_URL="$DOCKER_SOCKET"
   fi
-  $REAL_CURL_OPTIONS="--unix-socket"
+  REAL_CURL_OPTIONS="--unix-socket"
 
 else
   DOCKER_URL=`echo $DOCKER_HOST | sed -e s/tcp/https/g`
-  $REAL_CURL_OPTIONS="--insecure --cert /etc/docker/server.pem --key /etc/docker/server-key.pem"
+  REAL_CURL_OPTIONS="--insecure --cert /etc/docker/server.pem --key /etc/docker/server-key.pem"
 fi
 
 if [ ! -z "$DOCKER_CURL_OPTION" ]; then
-  $REAL_CURL_OPTIONS="$REAL_CURL_OPTIONS $DOCKER_CURL_OPTION"
+  REAL_CURL_OPTIONS="$REAL_CURL_OPTIONS $DOCKER_CURL_OPTION"
 fi
 
 if [ -z "$1" ]; then
