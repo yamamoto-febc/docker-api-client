@@ -30,6 +30,4 @@ else
   JQ_ARG="$2"
 fi
 
-cat "curl -sSfk $REAL_CURL_OPTIONS $DOCKER_URL$1"
-
 curl -sSfk $REAL_CURL_OPTIONS "$DOCKER_URL$1" | jq "$JQ_ARG"

@@ -59,7 +59,8 @@ $ docker run -it --rm -e DOCKER_HOST \
 # docker-machineコマンドで環境変数を設定しておく(アンセット)
 $ eval $(docker-machine env -u)
 
-$ docker run -it --rm yamamotofebc/docker-api-client /images/json
+$ docker run -it -v /var/run/docker.sock:/var/run/docker.sock \
+             --rm yamamotofebc/docker-api-client /images/json
 
 # DOCKER_SOCKET環境変数を指定していないため、/var/run/docker.sockが使われる
 
