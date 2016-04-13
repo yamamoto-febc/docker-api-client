@@ -4,11 +4,11 @@ set -eo pipefail
 
 if [ -z "$DOCKER_HOST" ]; then
   if [ -z "$DOCKER_SOCKET" ]; then
-    DOCKER_URL="/var/run/docker.sock"
+    REAL_CURL_OPTIONS="--unix-socket /var/run/docker.sock"
   else
-    DOCKER_URL="$DOCKER_SOCKET"
+    REAL_CURL_OPTIONS="--unix-socket $DOCKER_SOCKET"
   fi
-  REAL_CURL_OPTIONS="--unix-socket"
+    DOCKER_URL="http:"
 
 else
   DOCKER_URL=`echo $DOCKER_HOST | sed -e s/tcp/https/g`
@@ -29,5 +29,7 @@ if [ -z "$2" ]; then
 else
   JQ_ARG="$2"
 fi
+
+cat "curl -sSfk $REAL_CURL_OPTIONS $DOCKER_URL$1"
 
 curl -sSfk $REAL_CURL_OPTIONS "$DOCKER_URL$1" | jq "$JQ_ARG"
