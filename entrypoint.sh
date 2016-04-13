@@ -3,10 +3,20 @@
 set -eo pipefail
 
 if [ -z "$DOCKER_HOST" ]; then
-  echo >&2 '$DOCKER_HOST is not set. Please set $DOCKER_HOST'
-  exit 1
+  if [ -z "$DOCKER_SOCKET" ]; then
+    DOCKER_URL="/var/run/docker.sock"
+  else
+    DOCKER_URL="$DOCKER_SOCKET"
+  fi
+  $REAL_CURL_OPTIONS="--unix-socket"
+
 else
   DOCKER_URL=`echo $DOCKER_HOST | sed -e s/tcp/https/g`
+  $REAL_CURL_OPTIONS="--insecure --cert /etc/docker/server.pem --key /etc/docker/server-key.pem"
+fi
+
+if [ ! -z "$DOCKER_CURL_OPTION" ]; then
+  $REAL_CURL_OPTIONS="$REAL_CURL_OPTIONS $DOCKER_CURL_OPTION"
 fi
 
 if [ -z "$1" ]; then
@@ -20,5 +30,4 @@ else
   JQ_ARG="$2"
 fi
 
-curl -sSfk --insecure --cert /etc/docker/server.pem --key /etc/docker/server-key.pem "$DOCKER_URL$1" | jq "$JQ_ARG"
-
+curl -sSfk $REAL_CURL_OPTIONS "$DOCKER_URL$1" | jq "$JQ_ARG"

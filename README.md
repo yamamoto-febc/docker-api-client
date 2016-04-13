@@ -6,7 +6,7 @@ Docker Machineで作られたDockerホストへのDocker Remote API呼び出し�
 
 # Usage
 
-### 書式/引数
+### 書式/引数/環境変数
 ```bash
 
 $ docker run (options) yamamotofebc/docker-api-client [APIエンドポイント] [jqコマンド引数]
@@ -17,22 +17,29 @@ $ docker-compose run (options) docker-api-client [APIエンドポイント] [jq�
 
 ```
 
-  ** 現状 GET のみ **
-
-  ** TODO APIエンドポイント指定部分で`POST /some/endpoint`みたいに指定できるように。 **
 
   - `APIエンドポイント` : 必須。`/images/json`など。詳細は[こちら](https://docs.docker.com/engine/reference/api/docker_remote_api/)を参照ください。
   - `jqコマンド引数` : オプション。デフォルト`.`。
 
-#### volumeの割り当て
+#### 環境変数
+
+  - `$DOCKER_HOST` : TLS保護付きTCPポートURL(docker-machine envコマンドで出力されるもの)
+  - `$DOCKER_SOCKET` : $DOCKER_HOSTが未指定の場合に利用される。dockerのunixドメインソケットパス。デフォルト`/var/run/docker.sock`
+  - `$DOCKER_CURL_OPTION` : curlコマンドに追加指定されるコマンド引数。(デフォルトで-sSfkは指定済み。それ以外の追加オプション(-xとか)を指定)
+
+#### TLS接続する場合のvolumeの割り当て
 
 以下にTLS関連ファイルが格納されていますので、/etc/dockerへvolumeを割り当ててください。
 
   - virtualboxなどのローカルドライバで作ったマシンの場合: `~/.docker/machine/machines/対象マシン`
   - sakuracloudなどのクラウドドライバで作ったマシンの場合: `/etc/docker`
 
+イメージ内の`/etc/docker`配下のTLS関連ファイル名は以下のようになっている必要があります。
 
-### docker runで実行する場合
+  - `証明書(--cert)` : `server.pem`
+  - `秘密鍵(--key)` :  `server-key.pem`
+
+### docker runで実行する場合(TLS接続)
 
 ```bash
 
@@ -44,6 +51,20 @@ $ docker run -it --rm -e DOCKER_HOST \
              yamamotofebc/docker-api-client /images/json
 
 ```
+
+### docker runで実行する場合(unixドメインソケット)
+
+```bash
+
+# docker-machineコマンドで環境変数を設定しておく(アンセット)
+$ eval $(docker-machine env -u)
+
+$ docker run -it --rm yamamotofebc/docker-api-client /images/json
+
+# DOCKER_SOCKET環境変数を指定していないため、/var/run/docker.sockが使われる
+
+```
+
 
 ### docker-composeで実行する場合
 
